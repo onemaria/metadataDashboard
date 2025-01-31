@@ -1,8 +1,10 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Depends
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Annotated
 from datetime import datetime
 import uvicorn
+from fastapi.security import OAuth2PasswordBearer
+
 
 SAMPLE_METADATA = [
     {"doi": "10.1234/example1", "title": "Research Paper 1", "citations": 15, "date": "2022-01-15", "authors": ["Author A", "Author B"], "affiliation": "University X"},
@@ -10,12 +12,17 @@ SAMPLE_METADATA = [
     {"doi": "10.1234/example3", "title": "Research Paper 3", "citations": 5, "date": "2023-03-22", "authors": ["Author D", "Author E"], "affiliation": "Institute Z"},
 ]
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI(title="Metadata Dashboard")
 
 class MetadataQuery(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     min_citations: Optional[int] = 0
+
+@app.get("/items/")
+async def read_items(token: Annotated[str, Depends(oauth2_scheme)]):
+    return {"token": token}
 
 @app.get("/citations/trends", summary="Get citation trends")
 def get_citation_trends(
