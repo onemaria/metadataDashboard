@@ -4,6 +4,22 @@ from typing import Optional, Annotated
 from datetime import datetime
 import uvicorn
 from fastapi.security import OAuth2PasswordBearer
+from starlette.responses import RedirectResponse
+
+from auth import get_user_info
+from models import User
+
+app = FastAPI()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+app = FastAPI(title="Metadata Dashboard")
+
+@app.get("/", include_in_schema = False)
+async def docs_redirect():
+    return RedirectResponse(url='/docs')
+
+@app.get("/secure")
+async def root(user: User = Depends(get_user_info)):
+    return {"message": f"Hello {user.username} you have the following service: {user.realm_roles}"}
 
 
 SAMPLE_METADATA = [
@@ -12,8 +28,6 @@ SAMPLE_METADATA = [
     {"doi": "10.1234/example3", "title": "Research Paper 3", "citations": 5, "date": "2023-03-22", "authors": ["Author D", "Author E"], "affiliation": "Institute Z"},
 ]
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-app = FastAPI(title="Metadata Dashboard")
 
 class MetadataQuery(BaseModel):
     start_date: Optional[datetime] = None
