@@ -59,3 +59,8 @@ Here you can set, get or delete key value pairs:
 - set `set KEY VALUE`
 - get `get KEY`
 - delete `delete KEY`
+
+
+# keycloak setup
+
+Keycloak can be run using the existing docker-compose.
