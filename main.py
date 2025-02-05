@@ -2,7 +2,7 @@ from datetime import timedelta
 from http.client import HTTPException
 import schemas
 import httpx
-from fastapi import FastAPI, Depends, APIRouter
+from fastapi import FastAPI, Depends, APIRouter, security
 from typing import Annotated, List
 import uvicorn
 from fastapi.security import OAuth2PasswordBearer, HTTPBasicCredentials, HTTPBasic
@@ -108,11 +108,6 @@ async def fetch_crossref_journals(db: Session = Depends(get_db)):
             return {"message": "Data fetched, saved, and cached successfully", "data": data}
         else:
             raise HTTPException(status_code=500, detail="Failed to fetch data from CrossRef")
-
-
-
-
-
 
 app.include_router(keycloak_router)
 app.include_router(metadata_router)
