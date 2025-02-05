@@ -59,3 +59,20 @@ Here you can set, get or delete key value pairs:
 - set `set KEY VALUE`
 - get `get KEY`
 - delete `delete KEY`
+
+
+# keycloak setup
+
+Keycloak can be run using the existing docker-compose.
+
+Test Keycloak is running correctly:
+
+```
+curl -X POST "http://localhost:8080/realms/testrealm/protocol/openid-connect/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "client_id=my-client" \
+  -d "client_secret=omBL1mGAuXhocxdAs7rQDGJPHOZ37qmV" \
+  -d "username=testuser" \
+  -d "password=testpassword" \
+  -d "grant_type=password"
+```
