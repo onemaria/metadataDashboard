@@ -1,18 +1,17 @@
 from datetime import timedelta
 from http.client import HTTPException
-import schemas
 import httpx
-from fastapi import FastAPI, Depends, APIRouter, security
+from fastapi import FastAPI, Depends, APIRouter
 from typing import Annotated, List
 import uvicorn
 from fastapi.security import OAuth2PasswordBearer, HTTPBasicCredentials, HTTPBasic
 from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
-
 import models
-from clients import initialize_keycloak_client
-from database import init_db, insert_journal, SessionLocal
-from redis_client import set_key, delete_key, get_key, get_from_redis, cache_in_redis
+from clients import schemas
+from clients.clients import initialize_keycloak_client
+from clients.database import init_db, insert_journal, SessionLocal
+from clients.redis_client import set_key, get_key, delete_key, get_from_redis, cache_in_redis
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -58,9 +57,9 @@ def delete_key_redis(key: str):
 
 
 postgres_router = APIRouter(prefix="/postgres", tags=["Postgres DB"])
-@app.on_event("startup")
-def startup():
-    init_db()
+# @app.on_event("startup")
+# def startup():
+#     init_db()
 
 def get_db():
     db = SessionLocal()

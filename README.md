@@ -17,14 +17,19 @@ Run the below command o see which environment you are using, then select that vi
 `pipenv --venv`
 
 ### Run the web server
-The FastAPI app, Keycloak, Redis and Postgres all run from the docker-compose.yaml file.
+
+Run the web server and build the docker compose for Keycloak, Redis and Postgres from docker-compose.yaml.
+
+`uvicorn main:app --reload`
 ```commandline
 docker-compose up --build
 ```
-You can also run the web server separately and the Keycloak, Redis and Postgres from docker-compose.
 
-`uvicorn main:app --reload`
-
+You can also run all 4: FastAPI app, Keycloak, Redis and Postgres from the docker-compose.yaml file but you will need to
+modify the URL of the clients.
+```commandline
+docker-compose up --build
+```
 
 ### Keycloak
 
