@@ -1,71 +1,34 @@
 ### Intro
 
-This project uses [Uvicorn](https://www.uvicorn.org/) and [FasAPI](https://fastapi.tiangolo.com/).
+This project uses [Uvicorn as a web server](https://www.uvicorn.org/) and [FastAPI web framework](https://fastapi.tiangolo.com/) to make fetch metadata
+from CrossRef, cache it in a Redis DB and store it in a Postgres DB.
 
-The application is a simple Redis Microservice running using Uvicorn as a web server and FastAPI web framework.
-The microservice connects to a locally runing Redis database and supports CRUD operations.
-
-Redis is an open source (BSD licensed), in-memory data structure store, used as a database.
-
-Uvicorn is an ASGI web server implementation for Python.
+This microservice connects to a locally running Keycloak, Postgres and Redis database.
 
 ### Requirements
-To run the project you need Python 3.12 and Docker.
+To run the project you need Python 3.12, Docker, docker-compose and pipenv.
 Run the following commands:
 
-`pip install pipenv`
+```commandline
+pipenv install
+```
 
-`pipenv shell`
+Run the below command o see which environment you are using, then select that virtual env (perhaps from IDE interface)
+`pipenv --venv`
 
-`pipenv install`
-
-`pipenv --venv` - to see which environment you are using, then select that virtual env (perhaps from IDE interface)
-
-### Run the server
+### Run the web server
+The FastAPI app, Keycloak, Redis and Postgres all run from the docker-compose.yaml file.
+```commandline
+docker-compose up --build
+```
+You can also run the web server separately and the Keycloak, Redis and Postgres from docker-compose.
 
 `uvicorn main:app --reload`
 
-The server communicates with a local Redis running in a docker container. To pull the redis docker image and then start the container do:
 
-`docker pull redis`
+### Keycloak
 
-`docker run -p 6379:6379 -v redis-data:/data redis`
-
-### Generate python client
-
-To generate a client you must generate an openapi schema of the service. Based on this schema
-openapi-generator will generate a python client.
-
-You will need Java (it was tested with Java 11) to run the openapi-generator-cli.jar as well as the _build_ python package.
-```commandline
-sudo apt update
-sudo apt install openjdk-11-jdk
-pip install --upgrade setuptools
-bash scripts/generate-client.sh
-```
-
-### Access the redis CLI 
-Install redis-cli:
-
-`sudo apt update`
-
-`sudo apt install redis-tools`
-
-Access redis-cli
-
-`redis-cli`
-
-Here you can set, get or delete key value pairs:
-- set `set KEY VALUE`
-- get `get KEY`
-- delete `delete KEY`
-
-
-# keycloak setup
-
-Keycloak can be run using the existing docker-compose.
-
-Test Keycloak is running correctly:
+Keycloak runs using the existing docker-compose.yaml. To check that it runs properly you can try the below cURL command
 
 ```
 curl -X POST "http://localhost:8080/realms/testrealm/protocol/openid-connect/token" \
@@ -76,3 +39,30 @@ curl -X POST "http://localhost:8080/realms/testrealm/protocol/openid-connect/tok
   -d "password=testpassword" \
   -d "grant_type=password"
 ```
+
+The Keycloak login is:
+```commandline
+username: testuser
+password: testpassword
+```
+However, the login is not necessary to access the DBs, it can be made a dependency but for now the login is only needed
+to retrieve an access token.
+
+### Postgres
+Here you can see the metadata of all Journals or query Journals by ID. There are 2 endpoints:
+1. postgres/journals
+2. postgres/journals/{journal_id}
+
+### Redis
+The DB caches responses for the Health Journal category for 24h and if the same CrossRef fetch command is run, 
+it will return the response from the cache. This can be of course extended for any or all categories of data.
+There are 3 endpoints:
+1. redis
+2. redis/{key}
+3. redis/{key}
+
+### Metadata
+This application is fetching Health Journal metadata from CrossRef and saves it in PostgresDB.
+There is 1 endpoint:
+1. metadata/fetch_crossref_journals
+
