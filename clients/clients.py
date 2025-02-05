@@ -1,5 +1,5 @@
 from keycloak import KeycloakOpenID
-from config import settings
+from clients.config import settings
 
 
 # Initialize Keycloak client with default settings

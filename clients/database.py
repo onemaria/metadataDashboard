@@ -11,6 +11,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def insert_journal(db: Session, journal_data: dict):
+    init_db()
     dois_by_issued_year = journal_data["breakdowns"].get("dois-by-issued-year", [])
 
     count_current_dois = 0
