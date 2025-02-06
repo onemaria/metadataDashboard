@@ -13,7 +13,6 @@ def initialize_redis_client():
         raise Exception("Could not connect to Redis. Ensure Redis is running.")
 
 def cache_in_redis(key: str, data: dict, expiration: timedelta = timedelta(days=1)):
-    # Store the data in Redis (as a JSON string)
     redis_client = initialize_redis_client()
     redis_client.setex(key, expiration, json.dumps(data))
 
@@ -30,7 +29,7 @@ def set_key(key: str, value: str):
     if response:
         return
     else:
-        raise HTTPException(detail=f'Key-Value pair was not saved')
+        raise HTTPException(detail=f'The key-Value pair was not saved')
 
 def get_key(key: str):
     redis_client = initialize_redis_client()
@@ -44,4 +43,4 @@ def delete_key(key: str):
     if response:
         return
     else:
-        raise HTTPException(detail=f'Key was not deleted')
+        raise HTTPException(detail=f'The key was not deleted')

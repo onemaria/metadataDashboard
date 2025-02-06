@@ -57,9 +57,6 @@ def delete_key_redis(key: str):
 
 
 postgres_router = APIRouter(prefix="/postgres", tags=["Postgres DB"])
-# @app.on_event("startup")
-# def startup():
-#     init_db()
 
 def get_db():
     db = SessionLocal()
