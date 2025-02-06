@@ -10,7 +10,6 @@ redis = "*"
 python-keycloak ="*"
 pydantic ="*"
 httpx = "*"
-python-multipart = "*"
 sqlalchemy = "*"
 psycopg2-binary = "*"
 
