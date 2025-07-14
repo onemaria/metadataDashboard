@@ -1,9 +1,13 @@
 ### Intro
 
 This project uses [Uvicorn as a web server](https://www.uvicorn.org/) and [FastAPI web framework](https://fastapi.tiangolo.com/) to make fetch metadata
-from CrossRef, cache it in a Redis DB and store it in a Postgres DB.
+from [CrossRef](https://api.crossref.org/swagger-ui/index.html), cache it in a Redis DB and store it in a Postgres DB.
 
 This microservice connects to a locally running Keycloak, Postgres and Redis database.
+
+![fastAPI - metadataDashboard.png](fastAPI%20-%20metadataDashboard.png)
+![keycloak - metadataDashboard.png](keycloak%20-%20metadataDashboard.png)
+![authentication - metadataDashboard.png](authentication%20-%20metadataDashboard.png)
 
 ### Requirements
 To run the project you need Python 3.12, Docker, docker-compose and pipenv.
