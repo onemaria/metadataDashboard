@@ -72,6 +72,6 @@ There are 3 endpoints:
 
 ### Metadata
 This application is fetching Health Journal metadata from CrossRef and saves it in PostgresDB.
-There is 1 endpoint:
+The endpoint used is:
 1. metadata/fetch_crossref_journals
 
