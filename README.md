@@ -1,6 +1,6 @@
 ### Intro
 
-This project uses [Uvicorn as a web server](https://www.uvicorn.org/) and [FastAPI web framework](https://fastapi.tiangolo.com/) to make fetch metadata
+This project uses [Uvicorn as a web server](https://www.uvicorn.org/) and [FastAPI web framework](https://fastapi.tiangolo.com/) to fetch metadata
 from [CrossRef](https://api.crossref.org/swagger-ui/index.html), cache it in a Redis DB and store it in a Postgres DB.
 
 This microservice connects to a locally running Keycloak, Postgres and Redis database.
