@@ -3,7 +3,7 @@
 This project uses [Uvicorn](https://www.uvicorn.org/) and [FasAPI](https://fastapi.tiangolo.com/).
 
 The application is a simple Redis Microservice running using Uvicorn as a web server and FastAPI web framework.
-The microservice connects to a locally runing Redis database and supports CRUD operations.
+The microservice connects to a locally running Redis database and supports CRUD operations.
 
 Redis is an open source (BSD licensed), in-memory data structure store, used as a database.
 
